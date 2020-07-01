@@ -1,10 +1,11 @@
 import React from 'react';
 import { Button, Progress, Alert } from 'reactstrap';
-
 import './SeatChooser.scss';
 
 class SeatChooser extends React.Component {
   
+
+
   componentDidMount() {
     const { loadSeats } = this.props;
     loadSeats();
@@ -16,6 +17,9 @@ class SeatChooser extends React.Component {
     return (seats.some(item => (item.seat === seatId && item.day === chosenDay)));
   }
 
+  // setInterval(() => {
+  // }, 1000);
+
   prepareSeat = (seatId) => {
     const { chosenSeat, updateSeat } = this.props;
     const { isTaken } = this;
@@ -23,6 +27,11 @@ class SeatChooser extends React.Component {
     if(seatId === chosenSeat) return <Button key={seatId} className="seats__seat" color="primary">{seatId}</Button>;
     else if(isTaken(seatId)) return <Button key={seatId} className="seats__seat" disabled color="secondary">{seatId}</Button>;
     else return <Button key={seatId} color="primary" className="seats__seat" outline onClick={(e) => updateSeat(e, seatId)}>{seatId}</Button>;
+  }
+
+  showFreeSeats = () => {
+    const { seats, chosenDay } = this.props;
+    return 50 - seats.filter(el => el.day === chosenDay).length;
   }
 
   render() {
